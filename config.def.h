@@ -24,7 +24,7 @@ static const char *fonts[] = {
   "JoyPixels:pixelsize=12:antialias=true:autohint=true"
 };
 
-static char dmenufont[]       = "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true";
+static char dmenufont[] = "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true";
 
 static char normbgcolor[]           = "#2B2B2B";
 static char normfgcolor[]           = "#E3CE00";
@@ -48,7 +48,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -65,10 +65,10 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -124,13 +124,16 @@ ResourcePref resources[] = {
   { "selbordercolor",   STRING,  &selbordercolor },
   { "selfgcolor",       STRING,  &selfgcolor },
   { "borderpx",         INTEGER, &borderpx },
-  { "snap",          		INTEGER, &snap },
+  { "snap",             INTEGER, &snap },
   { "showbar",          INTEGER, &showbar },
-  { "topbar",          	INTEGER, &topbar },
-  { "gappih",	          INTEGER, &gappih },
-  { "gappiv",	          INTEGER, &gappiv },
-  { "gappoh",	          INTEGER, &gappoh },
-  { "gappov",	          INTEGER, &gappov },
+  { "topbar",           INTEGER, &topbar },
+  { "gappih",           INTEGER, &gappih },
+  { "gappiv",           INTEGER, &gappiv },
+  { "gappoh",           INTEGER, &gappoh },
+  { "gappov",           INTEGER, &gappov },
+  { "nmaster",          INTEGER, &nmaster },
+  { "resizehints",      INTEGER, &resizehints },
+  { "mfact",            FLOAT,   &mfact },
 };
 
 static Key keys[] = {

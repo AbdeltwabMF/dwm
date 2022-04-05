@@ -4,10 +4,11 @@
 
 
 ## Features & Patches
-- [clickable statusbar](https://dwm.suckless.org/patches/statuscmd/): adds the ability to signal a status monitor program such as `dwmblocks`.
-- [stacker](https://dwm.suckless.org/patches/stacker/): provides utilities for managing the client stack.
-- [swallow](https://dwm.suckless.org/patches/swallow/): if a program run from a terminal, it temporarily takes its place to save space.
-- [xresources](https://dwm.suckless.org/patches/xresources/): allows to handle settings from Xresources.
+- [clickable statusbar](https://dwm.suckless.org/patches/statuscmd/): Adds the ability to signal a status monitor program such as `dwmblocks`.
+- [stacker](https://dwm.suckless.org/patches/stacker/): Provides utilities for managing the client stack.
+- [swallow](https://dwm.suckless.org/patches/swallow/): If a program run from a terminal, it temporarily takes its place to save space.
+- [xresources](https://dwm.suckless.org/patches/xresources/): Allows to handle settings from `Xresources`.
+- [removeborder](https://dwm.suckless.org/patches/removeborder/): Remove the border when there is only one window visible.
 
 ## Requirements
 
