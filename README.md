@@ -11,6 +11,7 @@
 - [removeborder](https://dwm.suckless.org/patches/removeborder/): Remove the border when there is only one window visible.
 - [fullscreen](https://dwm.suckless.org/patches/fullscreen/): Applies the monocle layout with the focused client on top and hides the bar.
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/): Adds (inner) gaps between client windows and (outer) gaps between windows and the screen edge in a flexible manner.
+- [notitle](https://dwm.suckless.org/patches/notitle/): Doesn't show the title.
 
 ## Requirements
 
