@@ -4,7 +4,8 @@
 
 
 ## Features & Patches
-- [Clickable statusbar](https://dwm.suckless.org/patches/statuscmd/).
+- [Clickable statusbar](https://dwm.suckless.org/patches/statuscmd/) adds the ability to signal a status monitor program such as `dwmblocks`.
+- [stacker](https://dwm.suckless.org/patches/stacker/): provides utilities for managing the client stack.
 
 ## Requirements
 
