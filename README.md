@@ -3,6 +3,10 @@
 `dwm` is an extremely fast, small, and dynamic window manager for `X`.
 
 
+## Preview
+![demo](preview.png)
+
+
 ## Features & Patches
 - [clickable statusbar](https://dwm.suckless.org/patches/statuscmd/): Adds the ability to signal a status monitor program such as `dwmblocks`.
 - [stacker](https://dwm.suckless.org/patches/stacker/): Provides utilities for managing the client stack.
