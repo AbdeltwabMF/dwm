@@ -9,6 +9,7 @@
 - [swallow](https://dwm.suckless.org/patches/swallow/): If a program run from a terminal, it temporarily takes its place to save space.
 - [xresources](https://dwm.suckless.org/patches/xresources/): Allows to handle settings from `Xresources`.
 - [removeborder](https://dwm.suckless.org/patches/removeborder/): Remove the border when there is only one window visible.
+- [fullscreen](https://dwm.suckless.org/patches/fullscreen/): Applies the monocle layout with the focused client on top and hides the bar.
 
 ## Requirements
 
