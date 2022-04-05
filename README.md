@@ -13,6 +13,7 @@
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/): Adds (inner) gaps between client windows and (outer) gaps between windows and the screen edge in a flexible manner.
 - [notitle](https://dwm.suckless.org/patches/notitle/): Doesn't show the title.
 - [shiftview](https://dwm.suckless.org/patches/nextprev/): Increment or decrement the selected tag.
+- [hide_vacant_tags](https://dwm.suckless.org/patches/hide_vacant_tags/): Prevents `dwm` from drawing tags with no clients.
 
 ## Requirements
 
