@@ -134,6 +134,10 @@ struct Monitor {
 	int by;               /* bar geometry */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
+	int gappih;           /* horizontal gap between windows */
+	int gappiv;           /* vertical gap between windows */
+	int gappoh;           /* horizontal outer gaps */
+	int gappov;           /* vertical outer gaps */
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
@@ -246,9 +250,9 @@ static void showhide(Client *c);
 static void sigchld(int unused);
 static void spawn(const Arg *arg);
 static int stackpos(const Arg *arg);
+static void tile(Monitor *);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
-static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -290,6 +294,7 @@ static char lastbutton[] = "-";
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh, blw = 0;      /* bar geometry */
+static int enablegaps = 1;   /* enables gaps, used by togglegaps */
 static int lrpad;            /* sum of left and right padding for text */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
@@ -760,6 +765,10 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->topbar = topbar;
+	m->gappih = gappih;
+	m->gappiv = gappiv;
+	m->gappoh = gappoh;
+	m->gappov = gappov;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -1681,7 +1690,6 @@ fullscreen(const Arg *arg)
 	togglebar(arg);
 }
 
-
 void
 setlayout(const Arg *arg)
 {
@@ -1896,32 +1904,39 @@ tagmon(const Arg *arg)
 	sendmon(selmon->sel, dirtomon(arg->i));
 }
 
+
 void
 tile(Monitor *m)
 {
-	unsigned int i, n, h, mw, my, ty;
-	Client *c;
+	unsigned int i, n, h, r, oe = enablegaps, ie = enablegaps, mw, my, ty;
+  Client *c;
 
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
+  for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+  if (n == 0)
+    return;
 
-	if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * m->mfact : 0;
-	else
-		mw = m->ww;
-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-		if (i < m->nmaster) {
-			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
-			if (my + HEIGHT(c) < m->wh)
-				my += HEIGHT(c);
-		} else {
-			h = (m->wh - ty) / (n - i);
-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
-			if (ty + HEIGHT(c) < m->wh)
-				ty += HEIGHT(c);
-		}
+	if (smartgaps == n) {
+		oe = 0; // outer gaps disabled
+	}
+
+  if (n > m->nmaster)
+		mw = m->nmaster ? (m->ww + m->gappiv*ie) * m->mfact : 0;
+  else
+		mw = m->ww - 2*m->gappov*oe + m->gappiv*ie;
+	for (i = 0, my = ty = m->gappoh*oe, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+    if (i < m->nmaster) {
+			r = MIN(n, m->nmaster) - i;
+			h = (m->wh - my - m->gappoh*oe - m->gappih*ie * (r - 1)) / r;
+			resize(c, m->wx + m->gappov*oe, m->wy + my, mw - (2*c->bw) - m->gappiv*ie, h - (2*c->bw), 0);
+      if (my + HEIGHT(c) + m->gappih*ie < m->wh)
+			  my += HEIGHT(c) + m->gappih*ie;
+    } else {
+			r = n - i;
+			h = (m->wh - ty - m->gappoh*oe - m->gappih*ie * (r - 1)) / r;
+			resize(c, m->wx + mw + m->gappov*oe, m->wy + ty, m->ww - mw - (2*c->bw) - 2*m->gappov*oe, h - (2*c->bw), 0);
+      if (ty + HEIGHT(c) + m->gappih*ie < m->wh)
+			  ty += HEIGHT(c) + m->gappih*ie;
+    }
 }
 
 void

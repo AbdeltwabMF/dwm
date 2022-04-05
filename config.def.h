@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static unsigned int borderpx  = 2;   /* border pixel of windows */
+static unsigned int borderpx  = 1;   /* border pixel of windows */
 static unsigned int snap      = 32;  /* snap pixel */
 /* horiz inner gap between windows */
 static unsigned int gappih    = 4;
@@ -11,6 +11,8 @@ static unsigned int gappiv    = 4;
 static unsigned int gappoh    = 8;
 /* vert outer gap between windows and screen edge */
 static unsigned int gappov    = 8;
+/* 1 means no outer gap when there is only one window */
+static const int smartgaps    = 1;
 /* 1 means swallow floating windows by default */
 static int swallowfloating    = 0;
 static int showbar            = 1;   /* 0 means no bar */
@@ -19,9 +21,9 @@ static int topbar             = 1;   /* 0 means bottom bar */
 static const char *fonts[] = {
   "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true",
   "Amiri Quran:pixelsize=13:antialias=true:autohint=true",
-  "FontAwesome:pixelsize=15:antialias=true:autohint=true",
-  "Pomodoro:pixelsize=15:antialias=true:autohint=true",
-  "JoyPixels:pixelsize=12:antialias=true:autohint=true"
+  "FontAwesome:pixelsize=14:antialias=true:autohint=true",
+  "Pomodoro:pixelsize=14:antialias=true:autohint=true",
+  "JoyPixels:pixelsize=14:antialias=true:autohint=true"
 };
 
 static char dmenufont[] = "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true";
@@ -57,24 +59,24 @@ static const Rule rules[] = {
 	 */
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
 	{ "Gimp",     NULL,     NULL,           1 << 8,         1,          0,           0,        -1 },
-	{ "Telegram", NULL,     NULL,           1 << 7,         0,          0,          -1,        -1 },
-	{ "Kdenlive", NULL,     NULL,           1 << 8,         0,          0,          -1,        -1 },
-	{ "Brave",    NULL,     NULL,           1 << 1,         0,          0,          -1,        -1 },
+	{ "Telegram", NULL,     NULL,           1 << 7,         0,          0,           0,        -1 },
+	{ "Kdenlive", NULL,     NULL,           1 << 8,         0,          0,           0,        -1 },
+	{ "Brave",    NULL,     NULL,           1 << 1,         0,          0,           0,        -1 },
 	{ "St",       NULL,     NULL,           0,              0,          1,           0,        -1 },
 	{ NULL,       NULL,     "Event Tester", 0,              0,          0,           1,        -1 }, /* xev */
 };
 
 /* layout(s) */
-static float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
+static float mfact     = 0.50f; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
-static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+  /* symbol             arrange function */
+  { "[]=",  tile },    /* first entry is default */
+  { "><>",  NULL },    /* no layout function means floating behavior */
+  { "[M]",  monocle },
 };
 
 /* key definitions */
@@ -116,13 +118,14 @@ static const char *statuscmd[] = { "/bin/sh", "-c", NULL, NULL };
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
+  { "color15",    STRING,	&normbordercolor },
+  { "color1",     STRING,	&selbordercolor },
+  { "color0",     STRING,	&normbgcolor },
+  { "color3",     STRING,	&normfgcolor },
+  { "color7",     STRING,	&selfgcolor },
+  { "color13",    STRING,	&selbgcolor },
+
   { "dmenufont",        STRING,  &dmenufont },
-  { "normbgcolor",      STRING,  &normbgcolor },
-  { "normbordercolor",  STRING,  &normbordercolor },
-  { "normfgcolor",      STRING,  &normfgcolor },
-  { "selbgcolor",       STRING,  &selbgcolor },
-  { "selbordercolor",   STRING,  &selbordercolor },
-  { "selfgcolor",       STRING,  &selfgcolor },
   { "borderpx",         INTEGER, &borderpx },
   { "snap",             INTEGER, &snap },
   { "showbar",          INTEGER, &showbar },
@@ -138,31 +141,25 @@ ResourcePref resources[] = {
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_f,      fullscreen,     {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_BackSpace, quit,        {0} },
-	STACKKEYS(MODKEY,                          focus)
-	STACKKEYS(MODKEY|ShiftMask,                push)
+	{ MODKEY,                       XK_p,         spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Return,    spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_b,         togglebar,      {0} },
+	{ MODKEY,                       XK_h,         setmfact,       {.f = -0.0005f} },
+	{ MODKEY,                       XK_l,         setmfact,       {.f = +0.0005f} },
+	{ MODKEY,                       XK_space,     zoom,           {0} },
+	{ MODKEY,                       XK_Tab,       view,           {0} },
+	{ MODKEY|ShiftMask,             XK_t,         setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             XK_m,         setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_s,         setlayout,      {0} },
+  { MODKEY,                       XK_Left,      focusmon,       { .i = -1 } },
+  { MODKEY,                       XK_Right,     focusmon,       { .i = +1 } },
+  /* { MODKEY,                       XK_Page_Up,   shiftview,      { .i = -1 } }, */
+  /* { MODKEY,                       XK_Page_Down, shiftview,      { .i = +1 } }, */
+	{ MODKEY,                       XK_f,         fullscreen,     {0} },
+	{ MODKEY|ShiftMask,             XK_q,         killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_space,     togglefloating, {0} },
+	STACKKEYS(MODKEY,                             focus)
+	STACKKEYS(MODKEY|ShiftMask,                   push)
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -181,7 +178,6 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button1,        spawn,          {.v = statuscmd } },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = statuscmd } },
 	{ ClkStatusText,        0,              Button3,        spawn,          {.v = statuscmd } },
