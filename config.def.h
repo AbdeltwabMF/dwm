@@ -1,11 +1,20 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
+static unsigned int borderpx  = 2;   /* border pixel of windows */
+static unsigned int snap      = 32;  /* snap pixel */
+/* horiz inner gap between windows */
+static unsigned int gappih    = 4;
+/* vert inner gap between windows */
+static unsigned int gappiv    = 4;
+/* horiz outer gap between windows and screen edge */
+static unsigned int gappoh    = 8;
+/* vert outer gap between windows and screen edge */
+static unsigned int gappov    = 8;
+/* 1 means swallow floating windows by default */
+static int swallowfloating    = 0;
+static int showbar            = 1;   /* 0 means no bar */
+static int topbar             = 1;   /* 0 means bottom bar */
 
 static const char *fonts[] = {
   "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true",
@@ -15,11 +24,7 @@ static const char *fonts[] = {
   "JoyPixels:pixelsize=12:antialias=true:autohint=true"
 };
 
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#2B2B2B";
-static const char col_gray2[]       = "#E3CE00";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
+static char dmenufont[]       = "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true";
 
 static char normbgcolor[]           = "#2B2B2B";
 static char normfgcolor[]           = "#E3CE00";
@@ -30,9 +35,9 @@ static char selbordercolor[]        = "#B40E0D";
 
 static const char col_cyan[]        = "#005577";
 static const char col_black[]       = "#000000";
-static const char col_red[]         = "#ff0000";
-static const char col_yellow[]      = "#ffff00";
-static const char col_white[]       = "#ffffff";
+static const char col_red[]         = "#C90002";
+static const char col_yellow[]      = "#EEDA1C";
+static const char col_white[]       = "#FFDFD2";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -60,7 +65,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
@@ -73,7 +78,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -94,7 +99,10 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = {
+	"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb",
+	normbgcolor, "-nf", normfgcolor, "-sb",
+	col_cyan, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 /* commands spawned when clicking statusbar, the mouse button pressed is exported as BUTTON */
@@ -104,6 +112,26 @@ static const StatusCmd statuscmds[] = {
 
 static const char *statuscmd[] = { "/bin/sh", "-c", NULL, NULL };
 
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+  { "dmenufont",        STRING,  &dmenufont },
+  { "normbgcolor",      STRING,  &normbgcolor },
+  { "normbordercolor",  STRING,  &normbordercolor },
+  { "normfgcolor",      STRING,  &normfgcolor },
+  { "selbgcolor",       STRING,  &selbgcolor },
+  { "selbordercolor",   STRING,  &selbordercolor },
+  { "selfgcolor",       STRING,  &selfgcolor },
+  { "borderpx",         INTEGER, &borderpx },
+  { "snap",          		INTEGER, &snap },
+  { "showbar",          INTEGER, &showbar },
+  { "topbar",          	INTEGER, &topbar },
+  { "gappih",	          INTEGER, &gappih },
+  { "gappiv",	          INTEGER, &gappiv },
+  { "gappoh",	          INTEGER, &gappoh },
+  { "gappov",	          INTEGER, &gappov },
+};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -139,6 +167,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+	TAGKEYS(                        XK_0,                      9)
 	{ MODKEY|ShiftMask,             XK_BackSpace, quit,        {0} },
 };
 
