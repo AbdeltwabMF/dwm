@@ -12,6 +12,7 @@
 - [fullscreen](https://dwm.suckless.org/patches/fullscreen/): Applies the monocle layout with the focused client on top and hides the bar.
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/): Adds (inner) gaps between client windows and (outer) gaps between windows and the screen edge in a flexible manner.
 - [notitle](https://dwm.suckless.org/patches/notitle/): Doesn't show the title.
+- [shiftview](https://dwm.suckless.org/patches/nextprev/): Increment or decrement the selected tag.
 
 ## Requirements
 

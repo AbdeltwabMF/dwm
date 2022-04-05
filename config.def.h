@@ -139,6 +139,9 @@ ResourcePref resources[] = {
   { "mfact",            FLOAT,   &mfact },
 };
 
+#include <X11/XF86keysym.h>
+#include "shiftview.c"
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,         spawn,          {.v = dmenucmd } },
@@ -153,8 +156,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_s,         setlayout,      {0} },
   { MODKEY,                       XK_Left,      focusmon,       { .i = -1 } },
   { MODKEY,                       XK_Right,     focusmon,       { .i = +1 } },
-  /* { MODKEY,                       XK_Page_Up,   shiftview,      { .i = -1 } }, */
-  /* { MODKEY,                       XK_Page_Down, shiftview,      { .i = +1 } }, */
+  { MODKEY,                       XK_Page_Up,   shiftview,      { .i = -1 } },
+  { MODKEY,                       XK_Page_Down, shiftview,      { .i = +1 } },
 	{ MODKEY,                       XK_f,         fullscreen,     {0} },
 	{ MODKEY|ShiftMask,             XK_q,         killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_space,     togglefloating, {0} },
