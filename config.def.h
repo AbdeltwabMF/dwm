@@ -7,13 +7,27 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
-static const char *fonts[]          = { "monospace:size=10" };
+static const char *fonts[] = {
+  "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true",
+  "Amiri Quran:pixelsize=13:antialias=true:autohint=true",
+  "FontAwesome:pixelsize=15:antialias=true:autohint=true",
+  "Pomodoro:pixelsize=15:antialias=true:autohint=true",
+  "JoyPixels:pixelsize=12:antialias=true:autohint=true"
+};
 
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
+static const char col_gray1[]       = "#2B2B2B";
+static const char col_gray2[]       = "#E3CE00";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
+
+static char normbgcolor[]           = "#2B2B2B";
+static char normfgcolor[]           = "#E3CE00";
+static char selbgcolor[]            = "#887FCF";
+static char selfgcolor[]            = "#E6EDF9";
+static char normbordercolor[]       = "#FFC19A";
+static char selbordercolor[]        = "#B40E0D";
+
 static const char col_cyan[]        = "#005577";
 static const char col_black[]       = "#000000";
 static const char col_red[]         = "#ff0000";
@@ -22,10 +36,10 @@ static const char col_white[]       = "#ffffff";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] =	 { col_gray3, col_gray1,  col_gray2 },
-	[SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan },
-	[SchemeWarn] =	 { col_black, col_yellow, col_red },
-	[SchemeUrgent]=	 { col_white, col_red,    col_red },
+  [SchemeNorm] =  {normfgcolor, normbgcolor, normbordercolor},
+  [SchemeSel]  =  {selfgcolor,  selbgcolor,  selbordercolor },
+	[SchemeWarn] =  {col_black, col_yellow, col_red},
+	[SchemeUrgent]=	{col_white, col_red,    col_red},
 };
 
 /* tagging */
