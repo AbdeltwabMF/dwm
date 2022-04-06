@@ -72,7 +72,7 @@
 #define TAGMASK ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
 #define TRUNC(X, A, B) (MAX((A), MIN((X), (B))))
-#define OPAQUE 0xffU
+#define OPAQUE 0xf6U
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast };          /* cursor */
@@ -197,11 +197,6 @@ typedef struct {
   void *dst;
 } ResourcePref;
 
-typedef struct {
-  const char *cmd;
-  int id;
-} StatusCmd;
-
 /* function declarations */
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h,
@@ -317,8 +312,6 @@ static char stext[256];
 static int statusw;
 static int statussig;
 static pid_t statuspid = -1;
-static int statuscmdn;
-static char lastbutton[] = "-";
 static int screen;
 static int sw, sh;         /* X display screen geometry width, height */
 static int bh, blw = 0;    /* bar geometry */
@@ -572,6 +565,7 @@ void buttonpress(XEvent *e) {
       click = ClkLtSymbol;
     } else if (ev->x > selmon->ww - statusw) {
       x = selmon->ww - statusw;
+ 			click = ClkStatusText;
       statussig = 0;
       for (text = s = stext; *s && x <= ev->x; s++) {
         if ((unsigned char)(*s) < ' ') {
@@ -1792,17 +1786,6 @@ void spawn(const Arg *arg) {
   if (fork() == 0) {
     if (dpy)
       close(ConnectionNumber(dpy));
-    if (arg->v == statuscmd) {
-      for (int i = 0; i < LENGTH(statuscmds); i++) {
-        if (statuscmdn == statuscmds[i].id) {
-          statuscmd[2] = statuscmds[i].cmd;
-          setenv("BUTTON", lastbutton, 1);
-          break;
-        }
-      }
-      if (!statuscmd[2])
-        exit(EXIT_SUCCESS);
-    }
     setsid();
     execvp(((char **)arg->v)[0], (char **)arg->v);
     fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[0]);

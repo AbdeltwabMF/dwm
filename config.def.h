@@ -30,17 +30,17 @@ static char dmenufont[] =
     "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true";
 
 static char normbgcolor[] = "#2B2B2B";
-static char normfgcolor[] = "#E3CE00";
-static char selbgcolor[] = "#887FCF";
+static char normfgcolor[] = "#F3EFC8";
+static char selbgcolor[] = "#208C9F";
 static char selfgcolor[] = "#E6EDF9";
-static char normbordercolor[] = "#FFC19A";
-static char selbordercolor[] = "#B40E0D";
+static char normbordercolor[] = "#FFEDE1";
+static char selbordercolor[] = "#C34890";
 
 static const char col_cyan[] = "#005577";
-static const char col_black[] = "#000000";
-static const char col_red[] = "#C90002";
-static const char col_yellow[] = "#EEDA1C";
-static const char col_white[] = "#FFDFD2";
+static const char col_black[] = "#2B2B2B";
+static const char col_red[] = "#A62525";
+static const char col_yellow[] = "#BAAB19";
+static const char col_white[] = "#F3DAD0";
 
 static const unsigned int baralpha = 0xd0;
 static const unsigned int borderalpha = OPAQUE;
@@ -67,9 +67,9 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class     instance  title           tags mask  isfloating  isterminal
-       noswallow  monitor */
+    /* class instance  title 'tags mask' isfloating isterminal noswallow monitor */
     {"Gimp", NULL, NULL, 1 << 8, 1, 0, 0, -1},
+    {"Pinentry-gtk-2", NULL, NULL, 0, 1, 0, 0, -1},
     {"Telegram", NULL, NULL, 1 << 7, 0, 0, 0, -1},
     {"Kdenlive", NULL, NULL, 1 << 8, 0, 0, 0, -1},
     {"Brave", NULL, NULL, 1 << 1, 0, 0, 0, -1},
@@ -112,6 +112,7 @@ static const Layout layouts[] = {
   {                                                                            \
     .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
   }
+
 #define STATUSBAR "dwmblocks"
 
 /* commands */
@@ -119,16 +120,8 @@ static char dmenumon[2] =
     "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {
     "dmenu_run", "-m",  dmenumon, "-fn", dmenufont,  "-nb", normbgcolor, "-nf",
-    normfgcolor, "-sb", col_cyan, "-sf", selfgcolor, NULL};
+    normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL};
 static const char *termcmd[] = {"st", NULL};
-
-/* commands spawned when clicking statusbar, the mouse button pressed is
- * exported as BUTTON */
-static const StatusCmd statuscmds[] = {
-    {"notify-send Mouse$BUTTON", 1},
-};
-
-static const char *statuscmd[] = {"/bin/sh", "-c", NULL, NULL};
 
 /*
  * Xresources preferences to load at startup
