@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+#define OPQ_BAR_ALPHA 0xd0
+#define OPQ_BORDER_ALPHA 0x80
+
 /* appearance */
 static unsigned int borderpx = 2; /* border pixel of windows */
 static unsigned int snap = 32;    /* snap pixel */
@@ -30,7 +33,7 @@ static char dmenufont[] =
     "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true";
 
 static char normbgcolor[] = "#2B2B2B";
-static char normfgcolor[] = "#F3EFC8";
+static char normfgcolor[] = "#F0F0F0";
 static char selbgcolor[] = "#208C9F";
 static char selfgcolor[] = "#E6EDF9";
 static char normbordercolor[] = "#FFEDE1";
@@ -42,9 +45,6 @@ static const char col_red[] = "#A62525";
 static const char col_yellow[] = "#BAAB19";
 static const char col_white[] = "#F3DAD0";
 
-static const unsigned int baralpha = 0xd0;
-static const unsigned int borderalpha = OPAQUE;
-
 static const char *colors[][3] = {
     /*               fg         bg         border   */
     [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
@@ -55,8 +55,8 @@ static const char *colors[][3] = {
 
 static const unsigned int alphas[][3] = {
     /*               fg      bg        border     */
-    [SchemeNorm] = {OPAQUE, baralpha, borderalpha},
-    [SchemeSel] = {OPAQUE, baralpha, borderalpha},
+    [SchemeNorm] = {OPAQUE, OPQ_BAR_ALPHA, OPQ_BORDER_ALPHA},
+    [SchemeSel] = {OPAQUE, OPQ_BAR_ALPHA, OPQ_BORDER_ALPHA},
 };
 
 /* tagging */

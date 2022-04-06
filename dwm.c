@@ -72,7 +72,7 @@
 #define TAGMASK ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
 #define TRUNC(X, A, B) (MAX((A), MIN((X), (B))))
-#define OPAQUE 0xf6U
+#define OPAQUE 0xffU
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast };          /* cursor */
@@ -1706,7 +1706,7 @@ void setup(void) {
   cursor[CurMove] = drw_cur_create(drw, XC_fleur);
   /* init appearance */
   scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
-  for (i = 0; i < LENGTH(colors); i++)
+  for (i = 0; i < LENGTH(colors); ++i)
     scheme[i] = drw_scm_create(drw, colors[i], alphas[i], 3);
   /* init bars */
   updatebars();
