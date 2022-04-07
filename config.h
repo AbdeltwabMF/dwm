@@ -122,6 +122,7 @@ static const char *dmenucmd[] = {
     "dmenu_run", "-m",  dmenumon, "-fn", dmenufont,  "-nb", normbgcolor, "-nf",
     normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL};
 static const char *termcmd[] = {"st", NULL};
+static const char *tabtermcmd[] = {"tabbed", "-r 2 st w ''", NULL};
 
 /*
  * Xresources preferences to load at startup
@@ -154,6 +155,7 @@ static Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
+    {MODKEY | ShiftMask, XK_Return, spawn, {.v = tabtermcmd}},
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_h, setmfact, {.f = -0.0005f}},
     {MODKEY, XK_l, setmfact, {.f = +0.0005f}},
