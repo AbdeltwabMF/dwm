@@ -23,11 +23,14 @@ static int topbar = 1;  /* 0 means bottom bar */
 
 static const char *fonts[] = {
     "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true",
-    "Amiri Quran:pixelsize=13:antialias=true:autohint=true",
-    "JoyPixels:pixelsize=14:antialias=true:autohint=true",
+    "Ubuntu Arabic:pixelsize=13:antialias=true:autohint=true",
+    "icons\-in\-terminal:pixelsize=14:antialias=true:autohint=true",
     "FontAwesome:pixelsize=14:antialias=true:autohint=true",
-    "Pomodoro:pixelsize=14:antialias=true:autohint=true"
-};
+    "SauceCodePro Nerd Font:pixelsize=12:antialias=true:autohint=true",
+    "Pomodoro:pixelsize=14:antialias=true:autohint=true",
+    "octicons:pixelsize=14:antialias=true:autohint=true",
+    "icomoon:pixelsize=14:antialias=true:autohint=true",
+    "JoyPixels:pixelsize=12:antialias=true:autohint=true"};
 
 static char dmenufont[] =
     "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true";
@@ -67,7 +70,8 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class instance  title 'tags mask' isfloating isterminal noswallow monitor */
+    /* class instance  title 'tags mask' isfloating isterminal noswallow monitor
+     */
     {"Gimp", NULL, NULL, 1 << 8, 1, 0, 0, -1},
     {"Pinentry-gtk-2", NULL, NULL, 0, 1, 0, 0, -1},
     {"Telegram", NULL, NULL, 1 << 7, 0, 0, 0, -1},
@@ -120,9 +124,10 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] =
     "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {
-    "dmenu_run", "-m",  dmenumon, "-fn", dmenufont,  "-nb", normbgcolor, "-nf",
-    normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL};
+static const char *dmenucmd[] = {"dmenu_run", "-m",  dmenumon,    "-fn",
+                                 dmenufont,   "-nb", normbgcolor, "-nf",
+                                 normfgcolor, "-sb", selbgcolor,  "-sf",
+                                 selfgcolor,  NULL};
 static const char *termcmd[] = {"st", NULL};
 
 /*
@@ -195,4 +200,3 @@ static Button buttons[] = {
     {ClkTagBar, MODKEY, Button1, tag, {0}},
     {ClkTagBar, MODKEY, Button3, toggletag, {0}},
 };
-
