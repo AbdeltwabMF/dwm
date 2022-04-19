@@ -24,11 +24,11 @@ static int topbar = 1;  /* 0 means bottom bar */
 static const char *fonts[] = {
     "Fantasque Sans Mono:pixelsize=13:antialias=true:autohint=true",
     "Ubuntu Arabic:pixelsize=13:antialias=true:autohint=true",
-    "icons\-in\-terminal:pixelsize=14:antialias=true:autohint=true",
     "FontAwesome:pixelsize=14:antialias=true:autohint=true",
+    "icons\-in\-terminal:pixelsize=14:antialias=true:autohint=true",
     "SauceCodePro Nerd Font:pixelsize=12:antialias=true:autohint=true",
-    "Pomodoro:pixelsize=14:antialias=true:autohint=true",
     "octicons:pixelsize=14:antialias=true:autohint=true",
+    "Pomodoro:pixelsize=14:antialias=true:autohint=true",
     "icomoon:pixelsize=14:antialias=true:autohint=true",
     "JoyPixels:pixelsize=12:antialias=true:autohint=true"};
 
@@ -200,3 +200,4 @@ static Button buttons[] = {
     {ClkTagBar, MODKEY, Button1, tag, {0}},
     {ClkTagBar, MODKEY, Button3, toggletag, {0}},
 };
+
