@@ -75,6 +75,7 @@ static const Rule rules[] = {
     {"Gimp", NULL, NULL, 1 << 8, 1, 0, 0, -1},
     {"Pinentry-gtk-2", NULL, NULL, 0, 1, 0, 0, -1},
     {"Telegram", NULL, NULL, 1 << 7, 0, 0, 0, -1},
+    {"Emacs", NULL, NULL, 1 << 2, 0, 0, 0, -1},
     {"Kdenlive", NULL, NULL, 1 << 8, 0, 0, 0, -1},
     {"Brave", NULL, NULL, 1 << 1, 0, 0, 0, -1},
     {"libreoffice", NULL, NULL, 1 << 3, 1, 0, 0, -1},
