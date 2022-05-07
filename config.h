@@ -174,7 +174,7 @@ static Key keys[] = {
     {MODKEY, XK_Right, focusmon, {.i = +1}},
     {MODKEY, XK_Page_Up, shiftview, {.i = -1}},
     {MODKEY, XK_Page_Down, shiftview, {.i = +1}},
-    {MODKEY, XK_f, fullscreen, {0}},
+    {MODKEY, XK_f, togglefullscr, {0}},
     {MODKEY | ShiftMask, XK_q, killclient, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)
