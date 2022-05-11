@@ -53,13 +53,14 @@
 
 /* macros */
 #define BUTTONMASK (ButtonPressMask | ButtonReleaseMask)
-#define CLEANMASK(mask) (mask & ~(numlockmask | LockMask) \
-   & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask \
-   | Mod4Mask | Mod5Mask))
+#define CLEANMASK(mask)                                                        \
+  (mask & ~(numlockmask | LockMask) &                                          \
+   (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask |      \
+    Mod5Mask))
 #define GETINC(X) ((X)-2000)
 #define INC(X) ((X) + 2000)
-#define INTERSECT(x, y, w, h, m) \
-  (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) * \
+#define INTERSECT(x, y, w, h, m)                                               \
+  (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) *             \
    MAX(0, MIN((y) + (h), (m)->wy + (m)->wh) - MAX((y), (m)->wy)))
 #define ISINC(X) ((X) > 1000 && (X) < 3000)
 #define ISVISIBLE(C) ((C->tags & C->mon->tagset[C->mon->seltags]))
@@ -257,6 +258,7 @@ static void scan(void);
 static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
+static void cyclelayout(const Arg *arg);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void fullscreen(const Arg *arg);
@@ -382,7 +384,8 @@ void applyrules(Client *c) {
       c->noswallow = r->noswallow;
       c->isfloating = r->isfloating;
       c->tags |= r->tags;
-      for (m = mons; m && m->num != r->monitor; m = m->next) {}
+      for (m = mons; m && m->num != r->monitor; m = m->next) {
+      }
       if (m)
         c->mon = m;
     }
@@ -566,7 +569,7 @@ void buttonpress(XEvent *e) {
       click = ClkLtSymbol;
     } else if (ev->x > selmon->ww - statusw) {
       x = selmon->ww - statusw;
- 			click = ClkStatusText;
+      click = ClkStatusText;
       statussig = 0;
       for (text = s = stext; *s && x <= ev->x; s++) {
         if ((unsigned char)(*s) < ' ') {
@@ -638,7 +641,8 @@ void cleanupmon(Monitor *mon) {
   if (mon == mons) {
     mons = mons->next;
   } else {
-    for (m = mons; m && m->next != mon; m = m->next) {}
+    for (m = mons; m && m->next != mon; m = m->next) {
+    }
     m->next = mon->next;
   }
   XUnmapWindow(dpy, mon->barwin);
@@ -778,6 +782,23 @@ Monitor *createmon(void) {
   return m;
 }
 
+void cyclelayout(const Arg *arg) {
+  Layout *l;
+  for (l = (Layout *)layouts; l != selmon->lt[selmon->sellt]; l++)
+    ;
+  if (arg->i > 0) {
+    if (l->symbol && (l + 1)->symbol)
+      setlayout(&((Arg){.v = (l + 1)}));
+    else
+      setlayout(&((Arg){.v = layouts}));
+  } else {
+    if (l != layouts && (l - 1)->symbol)
+      setlayout(&((Arg){.v = (l - 1)}));
+    else
+      setlayout(&((Arg){.v = &layouts[LENGTH(layouts) - 2]}));
+  }
+}
+
 void destroynotify(XEvent *e) {
   Client *c;
   XDestroyWindowEvent *ev = &e->xdestroywindow;
@@ -791,18 +812,21 @@ void destroynotify(XEvent *e) {
 void detach(Client *c) {
   Client **tc;
 
-  for (tc = &c->mon->clients; *tc && *tc != c; tc = &(*tc)->next) {}
+  for (tc = &c->mon->clients; *tc && *tc != c; tc = &(*tc)->next) {
+  }
   *tc = c->next;
 }
 
 void detachstack(Client *c) {
   Client **tc, *t;
 
-  for (tc = &c->mon->stack; *tc && *tc != c; tc = &(*tc)->snext) {}
+  for (tc = &c->mon->stack; *tc && *tc != c; tc = &(*tc)->snext) {
+  }
   *tc = c->snext;
 
   if (c == c->mon->sel) {
-    for (t = c->mon->stack; t && !ISVISIBLE(t); t = t->snext) {}
+    for (t = c->mon->stack; t && !ISVISIBLE(t); t = t->snext) {
+    }
     c->mon->sel = t;
   }
 }
@@ -814,9 +838,11 @@ Monitor *dirtomon(int dir) {
     if (!(m = selmon->next))
       m = mons;
   } else if (selmon == mons) {
-    for (m = mons; m->next; m = m->next) {}
+    for (m = mons; m->next; m = m->next) {
+    }
   } else {
-    for (m = mons; m->next != selmon; m = m->next) {}
+    for (m = mons; m->next != selmon; m = m->next) {
+    }
   }
   return m;
 }
@@ -916,7 +942,8 @@ void expose(XEvent *e) {
 
 void focus(Client *c) {
   if (!c || !ISVISIBLE(c)) {
-    for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext) {}
+    for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext) {
+    }
   }
   if (selmon->sel && selmon->sel != c)
     unfocus(selmon->sel, 0);
@@ -965,7 +992,8 @@ void focusstack(const Arg *arg) {
     return;
 
   for (p = NULL, c = selmon->clients; c && (i || !ISVISIBLE(c));
-       i -= ISVISIBLE(c) ? 1 : 0, p = c, c = c->next) {}
+       i -= ISVISIBLE(c) ? 1 : 0, p = c, c = c->next) {
+  }
   focus(c ? c : p);
   restack(selmon);
 }
@@ -1314,7 +1342,8 @@ void movemouse(const Arg *arg) {
 }
 
 Client *nexttiled(Client *c) {
-  for (; c && (c->isfloating || !ISVISIBLE(c)); c = c->next) {}
+  for (; c && (c->isfloating || !ISVISIBLE(c)); c = c->next) {
+  }
   return c;
 }
 
@@ -1414,7 +1443,8 @@ void resizeclient(Client *c, int x, int y, int w, int h) {
   wc.border_width = c->bw;
 
   for (n = 0, nbc = nexttiled(selmon->clients); nbc;
-       nbc = nexttiled(nbc->next), n++) {}
+       nbc = nexttiled(nbc->next), n++) {
+  }
 
   if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
   } else {
@@ -1481,7 +1511,8 @@ void resizemouse(const Arg *arg) {
   XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1,
                c->h + c->bw - 1);
   XUngrabPointer(dpy, CurrentTime);
-  while (XCheckMaskEvent(dpy, EnterWindowMask, &ev)) {}
+  while (XCheckMaskEvent(dpy, EnterWindowMask, &ev)) {
+  }
   if ((m = recttomon(c->x, c->y, c->w, c->h)) != selmon) {
     sendmon(c, m);
     selmon = m;
@@ -1509,7 +1540,8 @@ void restack(Monitor *m) {
       }
   }
   XSync(dpy, False);
-  while (XCheckMaskEvent(dpy, EnterWindowMask, &ev)) {}
+  while (XCheckMaskEvent(dpy, EnterWindowMask, &ev)) {
+  }
 }
 
 void run(void) {
@@ -1630,7 +1662,8 @@ Layout *last_layout;
 void fullscreen(const Arg *arg) {
   if (selmon->showbar) {
     for (last_layout = (Layout *)layouts;
-         last_layout != selmon->lt[selmon->sellt]; last_layout++) {}
+         last_layout != selmon->lt[selmon->sellt]; last_layout++) {
+    }
     setlayout(&((Arg){.v = &layouts[2]}));
   } else {
     setlayout(&((Arg){.v = last_layout}));
@@ -1766,7 +1799,8 @@ void showhide(Client *c) {
 void sigchld(int unused) {
   if (signal(SIGCHLD, sigchld) == SIG_ERR)
     die("can't install SIGCHLD handler:");
-  while (0 < waitpid(-1, NULL, WNOHANG)) {}
+  while (0 < waitpid(-1, NULL, WNOHANG)) {
+  }
 }
 
 void sigstatusbar(const Arg *arg) {
@@ -1804,21 +1838,27 @@ int stackpos(const Arg *arg) {
 
   if (arg->i == PREVSEL) {
     for (l = selmon->stack; l && (!ISVISIBLE(l) || l == selmon->sel);
-         l = l->snext) {}
+         l = l->snext) {
+    }
     if (!l)
       return -1;
     for (i = 0, c = selmon->clients; c != l;
-         i += ISVISIBLE(c) ? 1 : 0, c = c->next) {}
+         i += ISVISIBLE(c) ? 1 : 0, c = c->next) {
+    }
     return i;
   } else if (ISINC(arg->i)) {
     if (!selmon->sel)
       return -1;
     for (i = 0, c = selmon->clients; c != selmon->sel;
-         i += ISVISIBLE(c) ? 1 : 0, c = c->next) {}
-    for (n = i; c; n += ISVISIBLE(c) ? 1 : 0, c = c->next) {}
+         i += ISVISIBLE(c) ? 1 : 0, c = c->next) {
+    }
+    for (n = i; c; n += ISVISIBLE(c) ? 1 : 0, c = c->next) {
+    }
     return MOD(i + GETINC(arg->i), n);
   } else if (arg->i < 0) {
-    for (i = 0, c = selmon->clients; c; i += ISVISIBLE(c) ? 1 : 0, c = c->next) {}
+    for (i = 0, c = selmon->clients; c;
+         i += ISVISIBLE(c) ? 1 : 0, c = c->next) {
+    }
     return MAX(i + arg->i, 0);
   } else {
     return arg->i;
@@ -1843,12 +1883,13 @@ void tile(Monitor *m) {
   unsigned int i, n, h, r, oe = enablegaps, ie = enablegaps, mw, my, ty;
   Client *c;
 
-  for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {}
+  for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+  }
   if (n == 0)
     return;
 
   if (smartgaps == n) {
-    oe = 0;  // outer gaps disabled
+    oe = 0; // outer gaps disabled
   }
 
   if (n > m->nmaster)
@@ -1894,10 +1935,8 @@ void togglefloating(const Arg *arg) {
   arrange(selmon);
 }
 
-void
-togglefullscr(const Arg *arg)
-{
-  if(selmon->sel)
+void togglefullscr(const Arg *arg) {
+  if (selmon->sel)
     setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 }
 
@@ -2044,7 +2083,8 @@ int updategeom(void) {
     XineramaScreenInfo *info = XineramaQueryScreens(dpy, &nn);
     XineramaScreenInfo *unique = NULL;
 
-    for (n = 0, m = mons; m; m = m->next, n++) {}
+    for (n = 0, m = mons; m; m = m->next, n++) {
+    }
     /* only consider unique geometries as separate screens */
     unique = ecalloc(nn, sizeof(XineramaScreenInfo));
     for (i = 0, j = 0; i < nn; i++)
@@ -2054,7 +2094,8 @@ int updategeom(void) {
     nn = j;
     if (n <= nn) { /* new monitors available */
       for (i = 0; i < (nn - n); i++) {
-        for (m = mons; m && m->next; m = m->next) {}
+        for (m = mons; m && m->next; m = m->next) {
+        }
         if (m)
           m->next = createmon();
         else
@@ -2073,7 +2114,8 @@ int updategeom(void) {
         }
     } else { /* less monitors available nn < n */
       for (i = nn; i < n; i++) {
-        for (m = mons; m && m->next; m = m->next) {}
+        for (m = mons; m && m->next; m = m->next) {
+        }
         while ((c = m->clients)) {
           dirty = 1;
           m->clients = c->next;
@@ -2531,4 +2573,3 @@ int main(int argc, char *argv[]) {
   XCloseDisplay(dpy);
   return EXIT_SUCCESS;
 }
-

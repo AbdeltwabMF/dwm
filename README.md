@@ -18,8 +18,9 @@
 - [notitle](https://dwm.suckless.org/patches/notitle/): Doesn't show the title.
 - [shiftview](https://dwm.suckless.org/patches/nextprev/): Increment or decrement the selected tag.
 - [hide_vacant_tags](https://dwm.suckless.org/patches/hide_vacant_tags/): Prevents `dwm` from drawing tags with no clients.
-- [alpha](https://dwm.suckless.org/patches/alpha/): Allow dwm to have translucent bars, while keeping all the text on it opaque.
-- [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/): Actually toggle fullscreen for a window, instead of toggling the status bar and the monocle layout.
+- [alpha](https://dwm.suckless.org/patches/alpha/): Allow `dwm` to have translucent bars, while keeping all the text on it opaque.
+- [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/): Actually toggle `fullscreen` for a window, instead of toggling the status bar and the monocle layout.
+- [cyclelayouts](https://dwm.suckless.org/patches/cyclelayouts/): Cycles through all available layouts using `MOD-CTRL-period`.
 
 
 

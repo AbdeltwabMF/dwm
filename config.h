@@ -70,18 +70,18 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class instance  title 'tags mask' isfloating isterminal noswallow monitor
+    /* class instance  title 'tags mask' switchtotag isfloating isterminal noswallow monitor
      */
-    {"Gimp", NULL, NULL, 1 << 8, 1, 0, 0, -1},
-    {"Pinentry-gtk-2", NULL, NULL, 0, 1, 0, 0, -1},
-    {"Telegram", NULL, NULL, 1 << 7, 0, 0, 0, -1},
-    {"Emacs", NULL, NULL, 1 << 2, 0, 0, 0, -1},
-    {"Kdenlive", NULL, NULL, 1 << 8, 0, 0, 0, -1},
-    {"Brave", NULL, NULL, 1 << 1, 0, 0, 0, -1},
-    {"libreoffice", NULL, NULL, 1 << 3, 1, 0, 0, -1},
-    {"Brave-browser", NULL, NULL, 0, 1, 0, 0, -1},
-    {"St", NULL, NULL, 0, 0, 1, 0, -1},
-    {NULL, NULL, "Event Tester", 0, 0, 0, 1, -1}, /* xev */
+    {"Gimp", NULL, NULL, 1 << 8, 0, 1, 0, 0, -1},
+    {"Pinentry-gtk-2", NULL, NULL, 0, 0, 1, 0, 0, -1},
+    {"Telegram", NULL, NULL, 1 << 7, 0, 0, 0, 0, -1},
+    {"Emacs", NULL, NULL, 1 << 2, 0, 0, 0, 0, -1},
+    {"Kdenlive", NULL, NULL, 1 << 8, 0, 0, 0, 0, -1},
+    {"Brave", NULL, NULL, 1 << 1, 0, 0, 0, 0, -1},
+    {"libreoffice", NULL, NULL, 1 << 3, 0, 1, 0, 0, -1},
+    {"Brave-browser", NULL, NULL, 0, 0, 1, 0, 0, -1},
+    {"St", NULL, NULL, 0, 0, 0, 1, 0, -1},
+    {NULL, NULL, "Event Tester", 0, 0, 0, 0, 1, -1}, /* xev */
 };
 
 /* layout(s) */
@@ -95,6 +95,7 @@ static const Layout layouts[] = {
     {"[]=", tile}, /* first entry is default */
     {"><>", NULL}, /* no layout function means floating behavior */
     {"[M]", monocle},
+    {NULL, NULL},
 };
 
 /* key definitions */
@@ -169,11 +170,12 @@ static Key keys[] = {
     {MODKEY, XK_Tab, view, {0}},
     {MODKEY | ShiftMask, XK_t, setlayout, {.v = &layouts[0]}},
     {MODKEY | ShiftMask, XK_m, setlayout, {.v = &layouts[1]}},
+    {MODKEY, XK_Page_Up, shiftview, {.i = -1}},
+    {MODKEY, XK_Page_Down, shiftview, {.i = +1}},
+    {MODKEY | ControlMask, XK_period, cyclelayout, {.i = -1}},
     {MODKEY, XK_s, setlayout, {0}},
     {MODKEY, XK_Left, focusmon, {.i = -1}},
     {MODKEY, XK_Right, focusmon, {.i = +1}},
-    {MODKEY, XK_Page_Up, shiftview, {.i = -1}},
-    {MODKEY, XK_Page_Down, shiftview, {.i = +1}},
     {MODKEY, XK_f, togglefullscr, {0}},
     {MODKEY | ShiftMask, XK_q, killclient, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
