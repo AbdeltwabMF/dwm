@@ -28,7 +28,10 @@ static const char *fonts[] = {
 	"Noto Sans Arabic:pixelsize=14:antialias=true:autohint=true",
 	"Amiri Quran Colored:pixelsize=14:antialias=true:autohint=true",
 	"Noto Color Emoji:pixelsize=14:antialias=true:autohint=true",
-	"JoyPixels:pixelsize=14:antialias=true:autohint=true"
+	"JoyPixels:pixelsize=14:antialias=true:autohint=true",
+	"Noto Sans Hebrew:pixelsize=18:antialias=true:autohint=true",
+	"Noto Sans KR:pixelsize=18:antialias=true:autohint=true",
+	"Noto Sans JP:pixelsize=18:antialias=true:autohint=true"
 };
 
 
