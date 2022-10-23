@@ -2,12 +2,12 @@
 
 `dwm` is an extremely fast, small, and dynamic window manager for `X`.
 
-
 ## Preview
+
 ![demo](preview.png)
 
-
 ## Features & Patches
+
 - [clickable statusbar](https://dwm.suckless.org/patches/statuscmd/): Adds the ability to signal a status monitor program such as `dwmblocks`.
 - [stacker](https://dwm.suckless.org/patches/stacker/): Provides utilities for managing the client stack.
 - [swallow](https://dwm.suckless.org/patches/swallow/): If a program run from a terminal, it temporarily takes its place to save space.
@@ -21,13 +21,11 @@
 - [alpha](https://dwm.suckless.org/patches/alpha/): Allow `dwm` to have translucent bars, while keeping all the text on it opaque.
 - [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/): Actually toggle `fullscreen` for a window, instead of toggling the status bar and the monocle layout.
 - [cyclelayouts](https://dwm.suckless.org/patches/cyclelayouts/): Cycles through all available layouts using `MOD-CTRL-period`.
-
-
+- [xrdb](https://dwm.suckless.org/patches/xrdb/): Allows dwm to read colors from xrdb (.Xresources) at run time.
 
 ## Requirements
 
 In order to build `dwm` you need the `Xlib` header files.
-
 
 ## Installation
 

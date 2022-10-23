@@ -39,11 +39,11 @@ static char dmenufont[] =
   "Fantasque Sans Mono:pixelsize=16:antialias=true:autohint=true";
 
 static char normbgcolor[] = "#2B2B2B";
-static char normfgcolor[] = "#F0F0F0";
-static char selbgcolor[] = "#208C9F";
-static char selfgcolor[] = "#E6EDF9";
-static char normbordercolor[] = "#FFEDE1";
-static char selbordercolor[] = "#C34890";
+static char normfgcolor[] = "#D4D4D4";
+static char selbgcolor[] = "#2B2B2B";
+static char selfgcolor[] = "#b5ab00";
+static char normbordercolor[] = "#9c7200";
+static char selbordercolor[] = "#dd001c";
 
 static const char col_cyan[] = "#005577";
 static const char col_black[] = "#2B2B2B";
@@ -139,18 +139,18 @@ static const char *termcmd[] = {"st", NULL};
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-    {"color5", STRING, &selbordercolor},
-    {"color15", STRING, &normbordercolor},
-    {"color0", STRING, &normbgcolor},
-    {"color15", STRING, &normfgcolor},
-    {"color3", STRING, &selbgcolor},
-    {"color5", STRING, &selfgcolor},
+    {"selbordercolor", STRING, &selbordercolor},
+    {"normbordercolor", STRING, &normbordercolor},
+    {"normbgcolor", STRING, &normbgcolor},
+    {"normfgcolor", STRING, &normfgcolor},
+    {"selbgcolor", STRING, &selbgcolor},
+    {"selfgcolor", STRING, &selfgcolor},
     {"dmenufont", STRING, &dmenufont},
     {"borderpx", INTEGER, &borderpx},
     {"snap", INTEGER, &snap},
     {"showbar", INTEGER, &showbar},
-    {"topbar", INTEGER, &topbar},
     {"gappih", INTEGER, &gappih},
+    {"topbar", INTEGER, &topbar},
     {"gappiv", INTEGER, &gappiv},
     {"gappoh", INTEGER, &gappoh},
     {"gappov", INTEGER, &gappov},
@@ -180,6 +180,7 @@ static Key keys[] = {
     {MODKEY, XK_Left, focusmon, {.i = -1}},
     {MODKEY, XK_Right, focusmon, {.i = +1}},
     {MODKEY, XK_f, togglefullscr, {0}},
+		{MODKEY, XK_F5, xrdb, {.v = NULL }},
     {MODKEY | ShiftMask, XK_q, killclient, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)

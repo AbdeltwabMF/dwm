@@ -46,7 +46,7 @@ void drw_font_getexts(Fnt *font, const char *text, unsigned int len,
 /* Colorscheme abstraction */
 void drw_clr_create(Drw *drw, Clr *dest, const char *clrname,
                     unsigned int alpha);
-Clr *drw_scm_create(Drw *drw, const char *clrnames[],
+Clr *drw_scm_create(Drw *drw, char *clrnames[],
                     const unsigned int alphas[], size_t clrcount);
 
 /* Cursor abstraction */
