@@ -22,34 +22,32 @@ static int showbar = 1; /* 0 means no bar */
 static int topbar = 1;  /* 0 means bottom bar */
 
 static const char *fonts[] = {
-  "Fantasque Sans Mono:pixelsize=14:antialias=true:autohint=true",
-  "NotoSans Nerd Font Mono:pixelsize=14:antialias=true:autohint=true",
-	"DejaVu Sans:pixelsize=14:antialias=true:autohint=true",
-	"Noto Sans Arabic:pixelsize=14:antialias=true:autohint=true",
-	"Amiri Quran Colored:pixelsize=14:antialias=true:autohint=true",
-	"Noto Color Emoji:pixelsize=14:antialias=true:autohint=true",
-	"JoyPixels:pixelsize=14:antialias=true:autohint=true",
-	"Noto Sans Hebrew:pixelsize=18:antialias=true:autohint=true",
-	"Noto Sans KR:pixelsize=18:antialias=true:autohint=true",
-	"Noto Sans JP:pixelsize=18:antialias=true:autohint=true"
-};
-
+    "Fantasque Sans Mono:pixelsize=14:antialias=true:autohint=true",
+    "NotoSans Nerd Font Mono:pixelsize=14:antialias=true:autohint=true",
+    "DejaVu Sans:pixelsize=14:antialias=true:autohint=true",
+    "Noto Sans Arabic:pixelsize=14:antialias=true:autohint=true",
+    "Amiri Quran Colored:pixelsize=14:antialias=true:autohint=true",
+    "Noto Color Emoji:pixelsize=14:antialias=true:autohint=true",
+    "JoyPixels:pixelsize=14:antialias=true:autohint=true",
+    "Noto Sans Hebrew:pixelsize=18:antialias=true:autohint=true",
+    "Noto Sans KR:pixelsize=18:antialias=true:autohint=true",
+    "Noto Sans JP:pixelsize=18:antialias=true:autohint=true"};
 
 static char dmenufont[] =
-  "Fantasque Sans Mono:pixelsize=16:antialias=true:autohint=true";
+    "Fantasque Sans Mono:pixelsize=16:antialias=true:autohint=true";
 
 static char normbgcolor[] = "#2B2B2B";
-static char normfgcolor[] = "#D4D4D4";
-static char selbgcolor[] = "#2B2B2B";
-static char selfgcolor[] = "#b5ab00";
+static char normfgcolor[] = "#c6c6c6";
+static char selbgcolor[] = "#004864";
+static char selfgcolor[] = "#e0f6ff";
 static char normbordercolor[] = "#9c7200";
 static char selbordercolor[] = "#dd001c";
 
 static const char col_cyan[] = "#005577";
 static const char col_black[] = "#2B2B2B";
-static const char col_red[] = "#A62525";
-static const char col_yellow[] = "#BAAB19";
-static const char col_white[] = "#F3DAD0";
+static const char col_red[] = "#dd001c";
+static const char col_yellow[] = "#9c7200";
+static const char col_white[] = "#D4D4D4";
 
 static const char *colors[][3] = {
     /*               fg         bg         border   */
@@ -80,6 +78,7 @@ static const Rule rules[] = {
     {"Telegram", NULL, NULL, 1 << 7, 0, 0, 0, -1},
     {"SimpleScreenRecorder", NULL, NULL, 0, 1, 0, 0, -1},
     {"Emacs", NULL, NULL, 1 << 2, 0, 0, 0, -1},
+    {"Joplin", NULL, NULL, 1 << 4, 0, 0, 0, -1},
     {"Kdenlive", NULL, NULL, 1 << 8, 0, 0, 0, -1},
     {"libreoffice", NULL, NULL, 1 << 3, 1, 0, 0, -1},
     {"Brave-browser", NULL, NULL, 1 << 1, 1, 0, 0, -1},
@@ -109,10 +108,10 @@ static const Layout layouts[] = {
       {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
       {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
+// {MOD, XK_grave, ACTION##stack, {.i = PREVSEL}},
 #define STACKKEYS(MOD, ACTION)                                                 \
   {MOD, XK_j, ACTION##stack, {.i = INC(+1)}},                                  \
       {MOD, XK_k, ACTION##stack, {.i = INC(-1)}},                              \
-      {MOD, XK_grave, ACTION##stack, {.i = PREVSEL}},                          \
       {MOD, XK_q, ACTION##stack, {.i = 0}},                                    \
       {MOD, XK_a, ACTION##stack, {.i = 1}},                                    \
       {MOD, XK_z, ACTION##stack, {.i = 2}},                                    \
@@ -180,7 +179,7 @@ static Key keys[] = {
     {MODKEY, XK_Left, focusmon, {.i = -1}},
     {MODKEY, XK_Right, focusmon, {.i = +1}},
     {MODKEY, XK_f, togglefullscr, {0}},
-		{MODKEY, XK_F5, xrdb, {.v = NULL }},
+    {MODKEY, XK_F5, xrdb, {.v = NULL}},
     {MODKEY | ShiftMask, XK_q, killclient, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)
@@ -207,4 +206,3 @@ static Button buttons[] = {
     {ClkTagBar, MODKEY, Button1, tag, {0}},
     {ClkTagBar, MODKEY, Button3, toggletag, {0}},
 };
-
